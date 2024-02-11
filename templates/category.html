@@ -16,7 +16,11 @@
                 <div class="row">
                     <div class="col-12">
                         <div class="section-title">
-                            <h4 class="m-0 text-uppercase font-weight-bold">Category: Business</h4>
+                            {% if active_tag == "" %}
+                            <h4 class="m-0 text-uppercase font-weight-bold">Category: ALL</h4>
+                            {% else %}
+                            <h4 class="m-0 text-uppercase font-weight-bold">Category: {{ active_tag | upper }}</h4>
+                            {% endif %}
                             <a class="text-secondary font-weight-medium text-decoration-none" href="">View All</a>
                         </div>
                     </div>
@@ -27,11 +31,10 @@
                                 <img class="img-fluid w-100" src="/media/{{ i.0.image }}" style="object-fit: cover; height: 225px;">
                                 <div class="bg-white border border-top-0 p-4">
                                     <div class="mb-2">
-                                        <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
-                                            href="">{{ i.0.tag.name }}</a>
+                                        <button class="btn badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2">{{ i.0.tag.name }}</button>
                                         <a class="text-body" href=""><small>{{ i.0.date }}</small></a>
                                     </div>
-                                    <a class="h4 d-block mb-3 text-secondary text-uppercase font-weight-bold" href="" style="max-height: 58px; overflow-y: hidden;">{{ i.0.title }}</a>
+                                    <a class="h4 d-block mb-3 text-secondary text-uppercase font-weight-bold" href="{% url 'detail' i.0.slug %}" style="max-height: 58px; overflow-y: hidden;">{{ i.0.title }}</a>
                                     <p class="m-0" style="max-height: 72px; overflow-y: hidden;">{{ i.0.text }}</p>
                                 </div>
                                 <div class="d-flex justify-content-between bg-white border border-top-0 p-4">
@@ -53,11 +56,10 @@
                                 <img class="img-fluid w-100" src="/media/{{ i.1.image }}" style="object-fit: cover; height: 225px;">
                                 <div class="bg-white border border-top-0 p-4">
                                     <div class="mb-2">
-                                        <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
-                                            href="">{{ i.1.tag.name }}</a>
+                                        <button class="btn badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2">{{ i.1.tag.name }}</button>
                                         <a class="text-body" href=""><small>{{ i.1.date }}</small></a>
                                     </div>
-                                    <a class="h4 d-block mb-3 text-secondary text-uppercase font-weight-bold" href="" style="max-height: 58px; overflow-y: hidden;">{{ i.1.title }}</a>
+                                    <a class="h4 d-block mb-3 text-secondary text-uppercase font-weight-bold" href="{% url 'detail' i.1.slug %}" style="max-height: 58px; overflow-y: hidden;">{{ i.1.title }}</a>
                                     <p class="m-0" style="max-height: 72px; overflow-y: hidden;">{{ i.1.text }}</p>
                                 </div>
                                 <div class="d-flex justify-content-between bg-white border border-top-0 p-4">
@@ -79,11 +81,10 @@
                                 <img class="img-fluid w-100" src="/media/{{ i.2.image }}" style="object-fit: cover; height: 225px;">
                                 <div class="bg-white border border-top-0 p-4">
                                     <div class="mb-2">
-                                        <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
-                                            href="">{{ i.2.tag.name }}</a>
+                                        <button class="btn badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2">{{ i.2.tag.name }}</button>
                                         <a class="text-body" href=""><small>{{ i.2.date }}</small></a>
                                     </div>
-                                    <a class="h4 d-block mb-3 text-secondary text-uppercase font-weight-bold" href="" style="max-height: 58px; overflow-y: hidden;">{{ i.2.title }}</a>
+                                    <a class="h4 d-block mb-3 text-secondary text-uppercase font-weight-bold" href="{% url 'detail' i.2.slug %}" style="max-height: 58px; overflow-y: hidden;">{{ i.2.title }}</a>
                                     <p class="m-0" style="max-height: 72px; overflow-y: hidden;">{{ i.2.text }}</p>
                                 </div>
                                 <div class="d-flex justify-content-between bg-white border border-top-0 p-4">
@@ -105,11 +106,10 @@
                                 <img class="img-fluid w-100" src="/media/{{ i.3.image }}" style="object-fit: cover; height: 225px;">
                                 <div class="bg-white border border-top-0 p-4">
                                     <div class="mb-2">
-                                        <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
-                                            href="">{{ i.3.tag.name }}</a>
+                                        <button class="btn badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2">{{ i.3.tag.name }}</button>
                                         <a class="text-body" href=""><small>{{ i.3.date }}</small></a>
                                     </div>
-                                    <a class="h4 d-block mb-3 text-secondary text-uppercase font-weight-bold" href="" style="max-height: 58px; overflow-y: hidden;">{{ i.3.title }}</a>
+                                    <a class="h4 d-block mb-3 text-secondary text-uppercase font-weight-bold" href="{% url 'detail' i.3.slug %}" style="max-height: 58px; overflow-y: hidden;">{{ i.3.title }}</a>
                                     <p class="m-0" style="max-height: 72px; overflow-y: hidden;">{{ i.3.text }}</p>
                                 </div>
                                 <div class="d-flex justify-content-between bg-white border border-top-0 p-4">
@@ -131,10 +131,10 @@
                             <img class="img-fluid" style="width: 110px; height: 110px; object-fit: cover;" src="/media/{{ i.4.image }}" alt="">
                             <div class="w-100 h-100 px-3 d-flex flex-column justify-content-center border border-left-0">
                                 <div class="mb-2">
-                                    <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">{{ i.4.tag.name }}</a>
+                                    <button class="btn badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2">{{ i.4.tag.name }}</button>
                                     <a class="text-body" href=""><small>{{ i.4.date }}</small></a>
                                 </div>
-                                <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="" style="max-height: 40px; overflow-y: hidden;">{{ i.4.text }}</a>
+                                <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="{% url 'detail' i.4.slug %}" style="max-height: 40px; overflow-y: hidden;">{{ i.4.title }}</a>
                             </div>
                         </div>
                         {% endif %}
@@ -143,10 +143,10 @@
                             <img class="img-fluid" style="width: 110px; height: 110px; object-fit: cover;" src="/media/{{ i.5.image }}" alt="">
                             <div class="w-100 h-100 px-3 d-flex flex-column justify-content-center border border-left-0">
                                 <div class="mb-2">
-                                    <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">{{ i.5.tag.name }}</a>
+                                    <button class="btn badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2">{{ i.5.tag.name }}</button>
                                     <a class="text-body" href=""><small>{{ i.5.date }}</small></a>
                                 </div>
-                                <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="" style="max-height: 40px; overflow-y: hidden;">{{ i.5.text }}</a>
+                                <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="{% url 'detail' i.5.slug %}" style="max-height: 40px; overflow-y: hidden;">{{ i.5.title }}</a>
                             </div>
                         </div>
                         {% endif %}
@@ -157,10 +157,10 @@
                             <img class="img-fluid" style="width: 110px; height: 110px; object-fit: cover;" src="/media/{{ i.6.image }}" alt="">
                             <div class="w-100 h-100 px-3 d-flex flex-column justify-content-center border border-left-0">
                                 <div class="mb-2">
-                                    <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">{{ i.6.tag.name }}</a>
+                                    <button class="btn badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2">{{ i.6.tag.name }}</button>
                                     <a class="text-body" href=""><small>{{ i.6.date }}</small></a>
                                 </div>
-                                <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="" style="max-height: 40px; overflow-y: hidden;">{{ i.6.text }}</a>
+                                <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="{% url 'detail' i.6.slug %}" style="max-height: 40px; overflow-y: hidden;">{{ i.6.title }}</a>
                             </div>
                         </div>
                         {% endif %}
@@ -169,10 +169,10 @@
                             <img class="img-fluid" style="width: 110px; height: 110px; object-fit: cover;" src="/media/{{ i.7.image }}" alt="">
                             <div class="w-100 h-100 px-3 d-flex flex-column justify-content-center border border-left-0">
                                 <div class="mb-2">
-                                    <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">{{ i.7.tag.name }}</a>
+                                    <button class="btn badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2">{{ i.7.tag.name }}</button>
                                     <a class="text-body" href=""><small>{{ i.7.date }}</small></a>
                                 </div>
-                                <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="" style="max-height: 40px; overflow-y: hidden;">{{ i.7.text }}</a>
+                                <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="{% url 'detail' i.7.slug %}" style="max-height: 40px; overflow-y: hidden;">{{ i.7.title }}</a>
                             </div>
                         </div>
                         {% endif %}
@@ -186,11 +186,10 @@
                                 <div class="col-md-6 d-flex flex-column border bg-white h-100 px-0">
                                     <div class="mt-auto p-4">
                                         <div class="mb-2">
-                                            <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
-                                                href="">{{ i.8.tag.name }}</a>
+                                            <button class="btn badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2">{{ i.8.tag.name }}</button>
                                             <a class="text-body" href=""><small>{{ i.8.date }}</small></a>
                                         </div>
-                                        <a class="h4 d-block mb-3 text-secondary text-uppercase font-weight-bold" style="max-height: 58px; overflow-y: hidden;" href="">{{ i.8.title }}</a>
+                                        <a class="h4 d-block mb-3 text-secondary text-uppercase font-weight-bold" style="max-height: 58px; overflow-y: hidden;" href="{% url 'detail' i.8.slug %}">{{ i.8.title }}</a>
                                         <p class="m-0" style="max-height: 72px; overflow-y: hidden;">{{ i.8.text }}</p>
                                     </div>
                                     <div class="d-flex justify-content-between bg-white border-top mt-auto p-4">
@@ -213,10 +212,10 @@
                             <img class="img-fluid" style="width: 110px; height: 110px; object-fit: cover;" src="/media/{{ i.9.image }}" alt="">
                             <div class="w-100 h-100 px-3 d-flex flex-column justify-content-center border border-left-0">
                                 <div class="mb-2">
-                                    <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">{{ i.9.tag.name }}</a>
+                                    <button class="btn badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2">{{ i.9.tag.name }}</button>
                                     <a class="text-body" href=""><small>{{ i.9.date }}</small></a>
                                 </div>
-                                <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="" style="max-height: 40px; overflow-y: hidden;">{{ i.9.text }}</a>
+                                <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="{% url 'detail' i.9.slug %}" style="max-height: 40px; overflow-y: hidden;">{{ i.9.title }}</a>
                             </div>
                         </div>
                         {% endif %}
@@ -225,10 +224,10 @@
                             <img class="img-fluid" style="width: 110px; height: 110px; object-fit: cover;" src="/media/{{ i.10.image }}" alt="">
                             <div class="w-100 h-100 px-3 d-flex flex-column justify-content-center border border-left-0">
                                 <div class="mb-2">
-                                    <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">{{ i.10.tag.name }}</a>
+                                    <button class="btn badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2">{{ i.10.tag.name }}</button>
                                     <a class="text-body" href=""><small>{{ i.10.date }}</small></a>
                                 </div>
-                                <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="" style="max-height: 40px; overflow-y: hidden;">{{ i.10.text }}</a>
+                                <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="{% url 'detail' i.10.slug %}" style="max-height: 40px; overflow-y: hidden;">{{ i.10.title }}</a>
                             </div>
                         </div>
                         {% endif %}
@@ -239,10 +238,10 @@
                             <img class="img-fluid" style="width: 110px; height: 110px; object-fit: cover;" src="/media/{{ i.11.image }}" alt="">
                             <div class="w-100 h-100 px-3 d-flex flex-column justify-content-center border border-left-0">
                                 <div class="mb-2">
-                                    <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">{{ i.11.tag.name }}</a>
+                                    <button class="btn badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2">{{ i.11.tag.name }}</button>
                                     <a class="text-body" href=""><small>{{ i.11.date }}</small></a>
                                 </div>
-                                <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="" style="max-height: 40px; overflow-y: hidden;">{{ i.11.text }}</a>
+                                <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="{% url 'detail' i.11.slug %}" style="max-height: 40px; overflow-y: hidden;">{{ i.11.title }}</a>
                             </div>
                         </div>
                         {% endif %}
@@ -251,10 +250,10 @@
                             <img class="img-fluid" style="width: 110px; height: 110px; object-fit: cover;" src="/media/{{ i.12.image }}" alt="">
                             <div class="w-100 h-100 px-3 d-flex flex-column justify-content-center border border-left-0">
                                 <div class="mb-2">
-                                    <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">{{ i.12.tag.name }}</a>
+                                    <button class="btn badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2">{{ i.12.tag.name }}</button>
                                     <a class="text-body" href=""><small>{{ i.12.date }}</small></a>
                                 </div>
-                                <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="" style="max-height: 40px; overflow-y: hidden;">{{ i.12.text }}</a>
+                                <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="{% url 'detail' i.12.slug %}" style="max-height: 40px; overflow-y: hidden;">{{ i.12.title }}</a>
                             </div>
                         </div>
                         {% endif %}
@@ -270,14 +269,15 @@
                         <h4 class="m-0 text-uppercase font-weight-bold">Tags</h4>
                     </div>
                     <div class="bg-white border border-top-0 p-3">
-                        <form method="post" class="d-flex flex-wrap m-n1">
-                            {% csrf_token %}
+                        <div class="d-flex flex-wrap m-n1">
                             {% for i in tags %}
-                            <button type="button" class="btn btn-sm btn-outline-secondary m-1 filter_tags">{{ i.name }}</button>
+                            {% if active_search == "" %}
+                            <a id="tag_{{ i.name }}" href="{% if active_tag != i.slug %}{% url 'tag_news' i.slug %}{% else %}{% url 'news' %}{% endif %}" class="btn btn-sm btn{% if active_tag != i.slug %}-outline{% endif %}-secondary m-1">{{ i.name }}</a>
+                            {% else %}
+                            <a id="tag_{{ i.name }}" href="{% if active_tag != i.slug %}{% url 'tag_news' i.slug %}{% else %}{% url 'news' %}{% endif %}?q={{ active_search }}" class="btn btn-sm btn{% if active_tag != i.slug %}-outline{% endif %}-secondary m-1">{{ i.name }}</a>
+                            {% endif %}
                             {% endfor %}
-                            <button type="submit" id="submit_tag" hidden></button>
-                            <input type="text" name="tag" hidden id="tag">
-                        </form>
+                        </div>
                     </div>
                 </div>
                 <!-- Tags End -->
@@ -315,10 +315,10 @@
                             <img style="width: 110px; height: 110px; object-fit: cover;" class="img-fluid" src="/media/{{ i.image }}" alt="">
                             <div class="w-100 h-100 px-3 d-flex flex-column justify-content-center border border-left-0">
                                 <div class="mb-2">
-                                    <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">{{ i.tag }}</a>
-                                    <a class="text-body" href=""><small>Jan 01, 2045</small></a>
+                                    <button class="btn badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2">{{ i.tag }}</button>
+                                    <a class="text-body" href=""><small>{{ i.date }}</small></a>
                                 </div>
-                                <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="" style="max-height: 34px; overflow-y: hidden;">{{ i.title }}</a>
+                                <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="{% url 'detail' i.slug %}" style="max-height: 34px; overflow-y: hidden;">{{ i.title }}</a>
                             </div>
                         </div>
                         {% endfor %}
@@ -349,13 +349,10 @@
 </div>
 <!-- News With Sidebar End -->
 <script>
-    let btns = document.querySelectorAll('.filter_tags')
-    let submit = document.querySelector('#submit_tag')
-    let input = document.querySelector('#tag')
+    let btns = document.querySelectorAll('.badge')
     btns.forEach(function (i) {
         i.addEventListener('click', function () {
-            input.value = i.textContent
-            submit.click()
+            document.querySelector(`#tag_${i.textContent}`).click()
         })
     })
 </script>

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+<title>Login page</title>
+{% endblock %}
+
+
+{% block content %}
+{% load static %}
+<div class="container-fluid mt-5 pt-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title mb-0">
+                    <h4 class="m-0 text-uppercase font-weight-bold">Login</h4>
+                </div>
+                <div class="bg-white border border-top-0 p-4 mb-0">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <input type="text" class="form-control p-4" placeholder="Username" name="username" required>
+                        </div>
+                        <div class="form-group" style="position: relative;">
+                            <input type="password" class="form-control p-4" placeholder="Password" name="password" required>
+                            <i onclick="show_password(this)" class="fa fa-eye" style="font-size: 24px; position: absolute; right: 15px; top: 0; bottom: 0; margin: auto 0; height: fit-content; cursor: pointer;"></i>
+                        </div>
+                        <p class="text-danger">{{ error }}</p>
+                        <div>
+                            <button class="btn btn-primary font-weight-semi-bold px-4" style="height: 50px;"
+                                type="submit">Login</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="section-title mb-0">
+                    <h4 class="m-0 text-uppercase font-weight-bold">Dont have an account? <a href="{% url 'register' %}">Create a new account</a></h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function show_password(btn) {
+        let input = btn.previousElementSibling
+        if (btn.classList[1] == 'fa-eye') {
+            btn.classList.remove('fa-eye')
+            btn.classList.add('fa-eye-slash')
+            input.type = 'text'
+        } else {
+            btn.classList.remove('fa-eye-slash')
+            btn.classList.add('fa-eye')
+            input.type = 'password'
+        }
+    }
+</script>
+{% endblock %}

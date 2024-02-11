@@ -4,3 +4,4 @@ from .models import *
 
 admin.site.register(Tag)
 admin.site.register(New)
+admin.site.register(NewsView)

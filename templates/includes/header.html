@@ -11,7 +11,11 @@
                         <a class="nav-link text-body small" href="{% url 'contact' %}">Contact</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-body small" href="#">Login</a>
+                        {% if not request.user.is_authenticated %}
+                        <a class="nav-link text-body small" href="{% url 'login' %}">Login | Register</a>
+                        {% else %}
+                        <a class="nav-link text-body small" href="{% url 'account' %}">Account</a>
+                        {% endif %}
                     </li>
                 </ul>
             </nav>
@@ -66,17 +70,17 @@
         </button>
         <div class="collapse navbar-collapse justify-content-between px-0 px-lg-3" id="navbarCollapse">
             <div class="navbar-nav mr-auto py-0">
-                <a href="{% url 'home' %}" class="nav-item nav-link active">Home</a>
-                <a href="{% url 'news' %}" class="nav-item nav-link">All news</a>
-                <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
+                <a href="{% url 'home' %}" class="nav-item nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}">Home</a>
+                <a href="{% url 'news' %}" class="nav-item nav-link {% if request.resolver_match.url_name == 'news' %}active{% elif request.resolver_match.url_name == 'tag_news' %}active{% endif %}">All news</a>
+                <a href="{% url 'contact' %}" class="nav-item nav-link {% if request.resolver_match.url_name == 'contact' %}active{% endif %}">Contact</a>
             </div>
-            <div class="input-group ml-auto d-none d-lg-flex" style="width: 100%; max-width: 300px;">
-                <input type="text" class="form-control border-0" placeholder="Keyword">
+            <form {% if request.resolver_match.url_name != "news" and request.resolver_match.url_name != "tag_news" %}action="{% url 'news' %}"{% endif %} method="get" class="input-group ml-auto d-none d-lg-flex" style="width: 100%; max-width: 300px;">
+                <input name="q" value="{{ active_search }}" type="text" class="form-control border-0" placeholder="Keyword">
                 <div class="input-group-append">
-                    <button class="input-group-text bg-primary text-dark border-0 px-3"><i
+                    <button type="submit" class="input-group-text bg-primary text-dark border-0 px-3"><i
                             class="fa fa-search"></i></button>
                 </div>
-            </div>
+            </form>
         </div>
     </nav>
 </div>
