@@ -5,6 +5,7 @@ import math
 from .models import *
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+import os
 
 
 def home_page(request):
@@ -47,8 +48,29 @@ def singe_page(request, slug):
         article.save()
         article = New.objects.get(slug=slug)
 
+    if request.method == "POST":
+        profile = Profile.objects.get(user=request.user)
+        message = request.POST.get('message')
+        reply_to = request.POST.get('reply_to')
+        if reply_to == "":
+            Comment.objects.create(user=profile, text=message, article=article)
+        else:
+            comment_id = int(reply_to.split('_')[1])
+            comment = Comment.objects.get(id=comment_id)
+            ReplyComment.objects.create(user=profile, text=message, reply_to=comment)
+
+    comments_obj = Comment.objects.filter(article=article)
+    comments = []
+    for i in comments_obj:
+        reply_comments = ReplyComment.objects.filter(reply_to=i)
+        if reply_comments:
+            comments.append([i, reply_comments])
+        else:
+            comments.append(i)
+
     context = {
         'article': article,
+        'comments': comments
     }
     context = get_default_context(context)
 
@@ -96,6 +118,7 @@ def register_page(request):
                                 user = User.objects.create_user(
                                     username=username, password=password1, email=email
                                 )
+                                Profile.objects.create(user=user)
                                 login(request, user)
                                 return redirect("home")
                             else:
@@ -117,4 +140,22 @@ def logout_page(request):
     return redirect('login')
 
 def account_page(request):
-    return render(request, "account.html")
+    profile = Profile.objects.get(user=request.user)
+    news = New.objects.filter(author=profile)
+
+    if request.method == "POST":
+        if request.FILES:
+            if profile.image != "avatars/default.png":
+                old_avatar_path = profile.image.path
+                if os.path.exists(old_avatar_path):
+                    os.remove(old_avatar_path)
+            img = request.FILES.get('image')
+            profile.image = img
+            profile.save()
+            profile = Profile.objects.get(user=request.user)
+
+    context = {
+        'profile': profile,
+        'news': news
+    }
+    return render(request, "account.html", context=context)

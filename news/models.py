@@ -15,13 +15,21 @@ class Tag(models.Model):
         super(Tag, self).save(*args, **kwargs)
     
 
+class Profile(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    image = models.ImageField(upload_to='avatars/', default='avatars/default.png')
+
+    def __str__(self):
+        return self.user.username
+    
+
 class New(models.Model):
     image = models.ImageField(upload_to='news/')
     slug = models.SlugField(max_length=100, unique=True, blank=True)
     title = models.CharField(max_length=100)
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
     text = models.TextField()
-    author = models.ForeignKey(User, on_delete=models.CASCADE)
+    author = models.ForeignKey(Profile, on_delete=models.CASCADE)
     views = models.PositiveIntegerField(default=0)
     comments = models.PositiveIntegerField(default=0)
     date = models.DateField(auto_now_add=True)
@@ -40,3 +48,23 @@ class NewsView(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.article.title}"
+    
+
+class Comment(models.Model):
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    text = models.CharField(max_length=255)
+    date = models.DateTimeField(auto_now_add=True)
+    article = models.ForeignKey(New, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.user.user.username}'s comment"
+
+
+class ReplyComment(models.Model):
+    reply_to = models.ForeignKey(Comment, on_delete=models.CASCADE)
+    user = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    text = models.CharField(max_length=255)
+    date = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.user.username}'s reply to {self.reply_to.user.user.username}"

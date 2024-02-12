@@ -15,16 +15,48 @@
                 <div class="section-title mb-0">
                     <h3 class="m-0 font-weight-bold">My account</h3>
                 </div>
-                <div class="bg-white d-flex flex-column border border-top-0 p-4 mb-0">
-                    <div class="w-25 d-flex justify-content-center align-items-center" style="aspect-ratio: 1;">
-                        <form method="post" class="w-75 h-75 position-relative">
-                            <img class="w-100 h-100 rounded-circle" style="object-fit: cover; border: 5px solid #FFCC00;" src="/media/news/news-700x435-1.jpg" alt="">
-                            <button style="right: 0; bottom: 0;" class="w-25 h-25 position-absolute btn btn-primary rounded-circle d-flex align-items-center justify-content-center"><i style="font-size: 24px;" class="fa fa-file-image"></i></button>
-                        </form>
+                <div class="bg-white d-flex border border-top-0 p-4 mb-0 justify-content-between">
+                    <div class="d-flex w-25 flex-column">
+                        <div class="w-100 d-flex justify-content-center align-items-center" style="aspect-ratio: 1;">
+                            <form method="post" enctype="multipart/form-data" class="w-75 h-75 position-relative">
+                                {% csrf_token %}
+                                <img class="w-100 h-100 rounded-circle" style="object-fit: cover; border: 5px solid #FFCC00;" src="/media/{{ profile.image }}" alt="">
+                                <button type="button" id="avatar_btn" style="right: 0; bottom: 0;" class="w-25 h-25 position-absolute btn btn-primary rounded-circle d-flex align-items-center justify-content-center"><i style="font-size: 24px;" class="fa fa-file-image"></i></button>
+                                <button id="avatar_submit" hidden type="submit"></button>
+                                <input type="file" name="image" hidden id="avatar_input">
+                            </form>
+                        </div>
+                        <div class="w-100">
+                            <p>{{ request.user.username }}</p>
+                            <p>{{ request.user.email }}</p>
+                        </div>
                     </div>
-                    <div class="w-25">
-                        <h5>{{ request.user.username }}</h5>
-                        <h5>{{ request.user.email }}</h5>
+                    <div class="w-75 row">
+                        {% for i in news %}
+                        <div class="col-lg-6">
+                            <div class="position-relative mb-3">
+                                <img class="img-fluid w-100" src="/media/{{ i.image }}" style="object-fit: cover; height: 225px;">
+                                <div class="bg-white border border-top-0 p-4">
+                                    <div class="mb-2">
+                                        <button class="btn badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2">{{ i.tag.name }}</button>
+                                        <a class="text-body" href=""><small>{{ i.date }}</small></a>
+                                    </div>
+                                    <a class="h4 d-block mb-3 text-secondary text-uppercase font-weight-bold" href="{% url 'detail' i.slug %}" style="max-height: 58px; overflow-y: hidden;">{{ i.0.title }}</a>
+                                    <p class="m-0" style="max-height: 72px; overflow-y: hidden;">{{ i.text }}</p>
+                                </div>
+                                <div class="d-flex justify-content-between bg-white border border-top-0 p-4">
+                                    <div class="d-flex align-items-center">
+                                        <img class="rounded-circle mr-2" src="/media/{{ i.author.image }}" width="25" height="25" alt="">
+                                        <small>{{ i.author.user.username }}</small>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <small class="ml-3"><i class="far fa-eye mr-2"></i>{{ i.views }}</small>
+                                        <small class="ml-3"><i class="far fa-comment mr-2"></i>{{ i.comments }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
                     </div>
                 </div> 
             </div>
@@ -32,17 +64,15 @@
     </div>
 </div>
 <script>
-    function show_password(btn) {
-        let input = btn.previousElementSibling
-        if (btn.classList[1] == 'fa-eye') {
-            btn.classList.remove('fa-eye')
-            btn.classList.add('fa-eye-slash')
-            input.type = 'text'
-        } else {
-            btn.classList.remove('fa-eye-slash')
-            btn.classList.add('fa-eye')
-            input.type = 'password'
-        }
-    }
+    let btn = document.getElementById('avatar_btn')
+    let submit = document.getElementById('avatar_submit')
+    let input = document.getElementById('avatar_input')
+    
+    btn.addEventListener('click', function () {
+        input.click()
+    })
+    input.addEventListener('change', function () {
+        submit.click()
+    })
 </script>
 {% endblock %}

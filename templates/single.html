@@ -67,35 +67,38 @@
                         <h4 class="m-0 text-uppercase font-weight-bold">{{ article.comments }} Comments</h4>
                     </div>
                     <div class="bg-white border border-top-0 p-4">
-                        <div class="media mb-4">
-                            <img src="{% static 'img/user.jpg' %}" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
-                            <div class="media-body">
-                                <h6><a class="text-secondary font-weight-bold" href="">John Doe</a> <small><i>01 Jan 2045</i></small></h6>
-                                <p>Diam amet duo labore stet elitr invidunt ea clita ipsum voluptua, tempor labore
-                                    accusam ipsum et no at. Kasd diam tempor rebum magna dolores sed sed eirmod ipsum.</p>
-                                <button class="btn btn-sm btn-outline-secondary">Reply</button>
-                            </div>
-                        </div>
+                        {% for i in comments %}
+                        {% if i.1 %}
                         <div class="media">
-                            <img src="{% static 'img/user.jpg' %}" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
+                            <img src="/media/{{ i.0.user.image }}" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
                             <div class="media-body">
-                                <h6><a class="text-secondary font-weight-bold" href="">John Doe</a> <small><i>01 Jan 2045</i></small></h6>
-                                <p>Diam amet duo labore stet elitr invidunt ea clita ipsum voluptua, tempor labore
-                                    accusam ipsum et no at. Kasd diam tempor rebum magna dolores sed sed eirmod ipsum.</p>
-                                <button class="btn btn-sm btn-outline-secondary">Reply</button>
+                                <h6><a class="text-secondary font-weight-bold" href="">{{ i.0.user.user.username }}</a> <small><i>{{ i.0.date }}</i></small></h6>
+                                <p>{{ i.0.text }}</p>
+                                <button id="{{ i.0.user.user.username }}_{{ i.0 }}" class="btn btn-sm btn-outline-secondary reply-btn">Reply</button>
+                                {% for c in i.1 %}
                                 <div class="media mt-4">
-                                    <img src="{% static 'img/user.jpg' %}" alt="Image" class="img-fluid mr-3 mt-1"
+                                    <img src="/media/{{ c.user.image }}" alt="Image" class="img-fluid mr-3 mt-1"
                                         style="width: 45px;">
                                     <div class="media-body">
-                                        <h6><a class="text-secondary font-weight-bold" href="">John Doe</a> <small><i>01 Jan 2045</i></small></h6>
-                                        <p>Diam amet duo labore stet elitr invidunt ea clita ipsum voluptua, tempor
-                                            labore accusam ipsum et no at. Kasd diam tempor rebum magna dolores sed sed
-                                            eirmod ipsum.</p>
-                                        <button class="btn btn-sm btn-outline-secondary">Reply</button>
+                                        <h6><a class="text-secondary font-weight-bold" href="">{{ c.user.user.username }}</a> <small><i>{{ c.date }}</i></small></h6>
+                                        <p>{{ c.text }}</p>
+                                        <button id="{{ i.0.user.user.username }}_{{ i.0.id }}" class="btn btn-sm btn-outline-secondary reply-btn">Reply</button>
                                     </div>
                                 </div>
+                                {% endfor %}
                             </div>
                         </div>
+                        {% else %}
+                        <div class="media mb-4">
+                            <img src="/media/{{ i.user.image }}" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
+                            <div class="media-body">
+                                <h6><a class="text-secondary font-weight-bold" href="">{{ i.user.user.username }}</a> <small><i>{{ i.date }}</i></small></h6>
+                                <p>{{ i.text }}</p>
+                                <button id="{{ i.user.user.username }}_{{ i.id }}" class="btn btn-sm btn-outline-secondary reply-btn">Reply</button>
+                            </div>
+                        </div>
+                        {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
                 <!-- Comment List End -->
@@ -106,29 +109,12 @@
                         <h4 class="m-0 text-uppercase font-weight-bold">Leave a comment</h4>
                     </div>
                     <div class="bg-white border border-top-0 p-4">
-                        <form>
-                            <div class="form-row">
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="name">Name *</label>
-                                        <input type="text" class="form-control" id="name">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label for="email">Email *</label>
-                                        <input type="email" class="form-control" id="email">
-                                    </div>
-                                </div>
-                            </div>
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="text" name="reply_to" id="reply_to" hidden>
                             <div class="form-group">
-                                <label for="website">Website</label>
-                                <input type="url" class="form-control" id="website">
-                            </div>
-
-                            <div class="form-group">
-                                <label for="message">Message *</label>
-                                <textarea id="message" cols="30" rows="5" class="form-control"></textarea>
+                                <label for="message">Message</label>
+                                <textarea maxlength="255" id="message" name="message" required cols="30" rows="5" class="form-control"></textarea>
                             </div>
                             <div class="form-group mb-0">
                                 <input type="submit" value="Leave a comment"
@@ -225,5 +211,17 @@
         </div>
     </div>
 </div>
+<script>
+    let btns = document.querySelectorAll('.reply-btn')
+    let input = document.querySelector('#reply_to')
+    let message = document.querySelector('#message')
+    btns.forEach(function (i) {
+        i.addEventListener('click', function () {
+            input.value = i.id
+            message.value = message.value.replace(`@${i.id.split('_')[0]} `, '')
+            message.value = `@${i.id.split('_')[0]} ${message.value}`
+        })
+    })
+</script>
 <!-- News With Sidebar End -->
 {% endblock %}
