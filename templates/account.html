@@ -29,6 +29,7 @@
                         <div class="w-100">
                             <p>{{ request.user.username }}</p>
                             <p>{{ request.user.email }}</p>
+                            <a href="{% url 'logout' %}">Logout</a>
                         </div>
                     </div>
                     <div class="w-75 row">

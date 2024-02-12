@@ -50,8 +50,8 @@
                     </div>
                     <div class="d-flex justify-content-between bg-white border border-top-0 p-4">
                         <div class="d-flex align-items-center">
-                            <img class="rounded-circle mr-2" src="{% static 'img/user.jpg' %}" width="25" height="25" alt="">
-                            <span>John Doe</span>
+                            <img class="rounded-circle mr-2" src="/media/{{ article.author.image }}" width="25" height="25" alt="">
+                            <span>{{ article.author.user.username }}</span>
                         </div>
                         <div class="d-flex align-items-center">
                             <span class="ml-3"><i class="far fa-eye mr-2"></i>{{ article.views }}</span>
@@ -179,7 +179,7 @@
                             <img style="width: 110px; height: 110px; object-fit: cover;" class="img-fluid" src="/media/{{ i.image }}" alt="">
                             <div class="w-100 h-100 px-3 d-flex flex-column justify-content-center border border-left-0">
                                 <div class="mb-2">
-                                    <button class="btn badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2">{{ i.tag }}</button>
+                                    <a href="{% url 'tag_news' i.tag.slug %}" class="btn badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2">{{ i.tag }}</a>
                                     <a class="text-body" href=""><small>{{ i.date }}</small></a>
                                 </div>
                                 <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="{% url 'detail' i.slug %}" style="max-height: 34px; overflow-y: hidden;">{{ i.title }}</a>

@@ -68,3 +68,10 @@ class ReplyComment(models.Model):
 
     def __str__(self):
         return f"{self.user.user.username}'s reply to {self.reply_to.user.user.username}"
+    
+
+class Contact(models.Model):
+    contact_info = models.TextField()
+    location = models.CharField(max_length=150)
+    email = models.EmailField()
+    phone_number = models.CharField(max_length=20)

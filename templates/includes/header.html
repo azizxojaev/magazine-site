@@ -17,6 +17,11 @@
                         <a class="nav-link text-body small" href="{% url 'account' %}">Account</a>
                         {% endif %}
                     </li>
+                    {% if request.user.is_superuser %}
+                    <li class="nav-item border-left border-secondary">
+                        <a class="nav-link text-body small" href="/admin">Admin</a>
+                    </li>
+                    {% endif %}
                 </ul>
             </nav>
         </div>
@@ -24,22 +29,13 @@
             <nav class="navbar navbar-expand-sm bg-dark p-0">
                 <ul class="navbar-nav ml-auto mr-n2">
                     <li class="nav-item">
-                        <a class="nav-link text-body" href="#"><small class="fab fa-twitter"></small></a>
+                        <a class="nav-link text-body" href="https://t.me/mars_it_school"><small class="fab fa-telegram"></small></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-body" href="#"><small class="fab fa-facebook-f"></small></a>
+                        <a class="nav-link text-body" href="https://www.instagram.com/mars_it_school"><small class="fab fa-instagram"></small></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-body" href="#"><small class="fab fa-linkedin-in"></small></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-body" href="#"><small class="fab fa-instagram"></small></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-body" href="#"><small class="fab fa-google-plus-g"></small></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-body" href="#"><small class="fab fa-youtube"></small></a>
+                        <a class="nav-link text-body" href="https://www.youtube.com/@marsitschool7823"><small class="fab fa-youtube"></small></a>
                     </li>
                 </ul>
             </nav>

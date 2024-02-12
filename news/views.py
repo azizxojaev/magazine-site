@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect
 import datetime
-from .utils import get_default_context
-import math
+from .utils import get_default_context, send_gmail
 from .models import *
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
@@ -11,6 +10,13 @@ import os
 def home_page(request):
     context = {}
     context = get_default_context(context)
+    context['tranding_news'] = New.objects.filter(date__month=datetime.datetime.now().month).order_by('-views')[:15]
+    context['tranding_news_5'] = New.objects.filter(date__month=datetime.datetime.now().month).order_by('-views')[:5]
+    latest_news_obj = New.objects.all().order_by('-date')
+    latest_news = [latest_news_obj[i:i+13] for i in range(0, len(latest_news_obj), 13)]
+    context['latest_news'] = latest_news
+    context['contact'] = Contact.objects.first()
+    
     return render(request, 'index.html', context=context)
 
 def category_page(request, tag=None):
@@ -38,6 +44,15 @@ def category_page(request, tag=None):
 def contact_page(request):
     context = {}
     context = get_default_context(context)
+    context['contact'] = Contact.objects.first()
+
+    if request.method == 'POST':
+        title = request.POST.get('title')
+        message = request.POST.get('message')
+        email = request.POST.get('email')
+        name = request.POST.get('name')
+        send_gmail(title, message, email, name)
+
     return render(request, 'contact.html', context=context)
 
 def singe_page(request, slug):
@@ -58,6 +73,10 @@ def singe_page(request, slug):
             comment_id = int(reply_to.split('_')[1])
             comment = Comment.objects.get(id=comment_id)
             ReplyComment.objects.create(user=profile, text=message, reply_to=comment)
+        article.comments = Comment.objects.filter(article=article).count() + ReplyComment.objects.filter(reply_to__article=article).count()
+        article.save()
+        article = New.objects.get(slug=slug)
+    
 
     comments_obj = Comment.objects.filter(article=article)
     comments = []
