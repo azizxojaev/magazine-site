@@ -46,7 +46,7 @@
                             <a class="text-body" href="">{{ article.date }}</a>
                         </div>
                         <h1 class="mb-3 text-secondary text-uppercase font-weight-bold">{{ article.title }}</h1>
-                        <p>{{ article.text }}</p>
+                        <p>{{ article.text|safe }}</p>
                     </div>
                     <div class="d-flex justify-content-between bg-white border border-top-0 p-4">
                         <div class="d-flex align-items-center">

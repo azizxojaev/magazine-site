@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
+from ckeditor.fields import RichTextField
 
 
 class Tag(models.Model):
@@ -28,7 +29,7 @@ class New(models.Model):
     slug = models.SlugField(max_length=100, unique=True, blank=True)
     title = models.CharField(max_length=100)
     tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
-    text = models.TextField()
+    text = RichTextField()
     author = models.ForeignKey(Profile, on_delete=models.CASCADE)
     views = models.PositiveIntegerField(default=0)
     comments = models.PositiveIntegerField(default=0)
