@@ -28,3 +28,7 @@ def send_gmail(title, text, email, name):
     text = message.as_string()
     server.sendmail(address, address, text)
     server.quit()
+
+def custom_slugify(value):
+    value = re.sub(r'[^\w\s-]', '', value).strip().lower()
+    return re.sub(r'[-\s]+', '-', value)

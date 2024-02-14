@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 from ckeditor.fields import RichTextField
+from .utils import custom_slugify
 
 
 class Tag(models.Model):
@@ -36,7 +37,7 @@ class New(models.Model):
     date = models.DateField(auto_now_add=True)
 
     def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
+        self.slug = custom_slugify(self.title)
         super(New, self).save(*args, **kwargs)
 
     def __str__(self):
