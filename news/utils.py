@@ -4,6 +4,7 @@ import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from django.contrib.auth.models import User
+import re
 
 def get_default_context(context):
     date = datetime.now().strftime("%A, %B %d, %Y")
